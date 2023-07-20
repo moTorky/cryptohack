@@ -1,0 +1,9 @@
+from prtvice module we need to make N operation to check if the number have a squre root
+p = 29
+ints = [14, 6, 11] 
+>>> find_squar_root(p,14)
+>>> find_squar_root(p,6)
+8
+21
+>>> find_squar_root(p,11)
+we have a way to check whether an integer is a quadratic residue with a single calculation thanks to Legendre. In the following, we will assume we are working modulo a prime p.

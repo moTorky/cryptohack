@@ -1,0 +1,90 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Extended Euclidean Algorithm </title>
+</head>
+<body bgcolor="ffffff">
+<h2 align="center">The Extended Euclidean Algorithm</h2>
+As we know from grade school, when we divide one integer by another (nonzero) integer we get an integer <i>quotient</i> (the  "answer") plus a <i>remainder</i> (generally a rational number). For instance,
+<center>  13/5  = 2 (<font color="red">"the quotient"</font>) + 3/5 (<font color="green">"the remainder"</font>). </center>
+We can rephrase this division, totally in terms of integers, without reference to the division operation:
+<center>13 = <font color="red">2</font>(5) + <font color="green">3</font>. </center>
+Note that this expression is obtained from the one above it by multiplying through by the divisor 5.  <p>
+ We refer to this way of writing a division of integers as the <b>Division Algorithm for Integers</b>. More formally stated:
+</p><blockquote>
+If a and b are positive integers, there exist integers unique non-negative integers q and r so that
+<center>a = qb + r , where 0<img src="Extended%20Euclidean%20Algorithm_files/le.gif" alt="[less than or equal]" align="middle">r &lt; b.</center>
+</blockquote>
+q is called the <i>quotient</i> and r the <i>remainder</i>.
+<p>
+The <i>greatest common divisor</i> of integers a and b, denoted by <i>gcd(a,b)</i>, is the largest integer that divides (without remainder) both a and b. So, for example:
+</p><center><table cellspacing="15">
+<tbody><tr><td>gcd(15, 5) = 5,</td><td>gcd(7, 9) = 1,</td><td>gcd(12, 9) = 3,</td><td>gcd(81, 57) = 3.</td>
+</tr></tbody></table></center><p>
+The gcd of two integers can be found by repeated application of the division algorithm, this is known as the <b><i>Euclidean Algorithm</i></b>.
+ You repeatedly divide the divisor by the remainder until the remainder 
+is 0. The gcd is the last non-zero remainder in this algorithm. The 
+following example shows the algorithm.
+</p><p>Finding the gcd of 81 and 57 by the Euclidean Algorithm:
+</p><center>  81 = 1(<font color="red">57</font>) + <font color="green">24</font><br>
+  57 = 2(<font color="red">24</font>) + <font color="green">9</font><br>
+  24 = 2(<font color="red">9</font>) + <font color="green">6</font><br>
+  9 = 1(<font color="red">6</font>) + <b>3</b><br>
+  6 = 2(<font color="red">3</font>) + 0.
+</center>
+<p>
+It is well known that if the gcd(a, b) = r then there exist integers p and s so that:
+</p><center>p(a) + s(b) = r.</center>
+By reversing the steps in the Euclidean Algorithm, it is possible to 
+find these integers p and s.  We shall do this with the above example:<p>
+Starting with the next to last line, we have:
+</p><center><b>3</b> = 9 -1(<font color="green">6</font>)</center>
+From the line before that, we see that <font color="green">6</font> = 24 - 2(<font color="red">9</font>), so:
+<center><b>3</b> = 9 - 1(24 - 2(<font color="red">9</font>)) = 3(<font color="red">9</font>) - 1(24).</center>
+From the line before that, we have  <font color="green">9</font> = 57 - 2(<font color="red">24</font>), so:
+<center><b>3</b> = 3( 57 - 2(<font color="red">24</font>)) - 1(24) = 3(57) - 7(<font color="red">24</font>).</center>
+And, from the line before that <font color="green">24</font> = 81 - 1(<font color="red">57</font>), giving us:
+<center><b>3</b> = 3(57) - 7( 81 - 1(<font color="red">57</font>)) = 10(57) -7(81).</center>
+So we have found p = -7 and s = 10.<p>
+The procedure we have followed above is a bit messy because of all the 
+back substitutions we have to make.  It is possible to reduce the amount
+ of computation involved in finding p and s by doing some auxillary 
+computations as we go forward in the Euclidean algorithm (and no back 
+substitutions will be necessary). This is known as the <b><i>extended Euclidean Algorithm</i></b>.</p><p>
+ Before presenting this extended Euclidean algorithm, we shall look at a
+ special application that is the most common usage of the algorithm. We 
+will give a form of the algorithm which only solves this special case, 
+although the general algorithm is not much more difficult.</p><p>
+Consider the problem of setting up the Hill cryptosystem. We were forced
+ to do arithmetic modulo 26, and sometimes we had to find the inverse of
+ a number mod 26. This turned out to be a difficult task (and not always
+ possible).  We observed that a number x had an inverse mod 26 (i.e., a 
+number y so that xy = 1 mod 26) if and only if  gcd(x, 26) = 1.  There 
+is nothing special about 26 here, so let us consider the general case of
+ finding inverses of numbers modulo n. The inverse of x exists if and 
+only if gcd(x, n) = 1. We now know that  if this is true, there exist 
+integers p and s so that 
+</p><center> px + sn = 1.</center>
+But this says that px = 1 + (-s)n, or in other words,  px<img src="Extended%20Euclidean%20Algorithm_files/equiv.gif" alt="[equivalent]" align="middle">1
+ (mod n). So, p (reduced mod n if need be) is the inverse of x mod n. 
+The extended Euclidean algorithm will give us a method for calculating p
+ efficiently (note that in this application we do not care about the 
+value for s, so we will simply ignore it.)<p>
+</p><h3>The Extended Euclidean Algorithm for finding the inverse of a number mod n.</h3>
+We will number the steps of the Euclidean algorithm starting with step 0. The quotient obtained at step i will be denoted by q<sub>i</sub>. As we carry out each step of the Euclidean algorithm, we will also calculate an auxillary number, p<sub>i</sub>. For the first two steps, the value of this number is given: p<sub>0</sub> = 0 and p<sub>1</sub> = 1. For the remainder of the steps, we recursively calculate p<sub>i</sub> = p<sub>i-2</sub> - p<sub>i-1</sub> q<sub>i-2</sub> (mod n).  Continue this calculation for one step beyond the last step of the Euclidean algorithm. <p>
+The algorithm starts by "dividing" n by x. If the last non-zero 
+remainder occurs at step k, then if this remainder is 1, x has an 
+inverse and it is p<sub>k+2</sub>. (If the remainder is not 1, then x does not have an inverse.) Here is an example:
+</p><h4>Find the inverse of 15 mod 26.</h4>
+<center><table cellspacing="10">
+<tbody><tr><td>Step 0: </td><td> 26 =<font color="red"> 1</font>(15) + 11 </td><td>p<sub>0</sub> = <font color="green"> 0</font></td>
+</tr><tr><td>Step 1: </td><td> 15 = <font color="red">1</font>(11) + 4 </td><td>p<sub>1</sub> = <font color="green"> 1</font></td>
+</tr><tr><td>Step 2: </td><td> 11 = <font color="red">2</font>(4) + 3 </td><td>p<sub>2</sub> = <font color="green"> 0</font> - <font color="green"> 1</font>(<font color="red"> 1</font>) mod 26 = <font color="green">25</font></td>
+</tr><tr><td>Step 3: </td><td> 4 = <font color="red">1</font>(3) + 1 </td><td>p<sub>3</sub> = <font color="green">1</font> - <font color="green"> 25</font>(<font color="red"> 1</font>) mod 26 = -24 mod 26 = <font color="green">2</font></td>
+</tr><tr><td>Step 4: </td><td> 3 = <font color="red">3</font>(1) + 0 </td><td>p<sub>4</sub> = <font color="green">25</font> - <font color="green">2</font>(<font color="red"> 2</font>) mod 26 =<font color="green"> 21</font> </td>
+</tr><tr><td>&nbsp; </td><td>&nbsp; </td><td>p<sub>5</sub> = <font color="green">2</font> - <font color="green">21</font>(<font color="red"> 1</font>) mod 26 = -19 mod 26 = <font color="green">7</font></td>
+</tr></tbody></table></center>
+<p>
+Notice that 15(7) = 105 = 1 + 4(26)<img src="Extended%20Euclidean%20Algorithm_files/equiv.gif" alt="[equivalent]" align="middle">1 (mod 26).
+
+
+</p></body></html>
